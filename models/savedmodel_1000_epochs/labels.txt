@@ -1,5 +1,0 @@
-0 Plastic
-1 Glass
-2 Paper
-3 Metal
-4 Organic

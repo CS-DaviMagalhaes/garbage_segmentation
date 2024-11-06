@@ -1,0 +1,10 @@
+v1 dataset: Drive folder with 15k images from various kaggle datasets
+v2 dataset: https://github.com/nikhilvenkatkumsetty/TrashBox 
+
+keras_v1_1000_ep: Trained with 1000 epochs, 16 batch size, 0.001 learning rate. Used v1 dataset 
+                  only and has organic class label instead of cardboard
+keras_v2_100_ep: Trained with 100 epochs, 16 batch size, 0.001 learning rate. Used v2 dataset
+keras_v2_500_ep: Trained with 500 epochs, 16 batch size, 0.001 learning rate. Used v2 dataset
+keras_v3_500_ep: Trained with 500 epochs, 16 batch size, 0.001 learning rate. Used v2 dataset 
+                 with some extra images of plastic and glass
+
