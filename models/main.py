@@ -7,10 +7,10 @@ import time
 np.set_printoptions(suppress=True)
 
 # Load the model
-model = load_model("./models/keras_1000_epochs/keras_model.h5", compile=False)
+model = load_model("../models/keras_v2_100_ep.h5", compile=False)
 
 # Load the labels
-class_names = open("./models/keras_1000_epochs/labels.txt", "r").readlines()
+class_names = open("../models/labels.txt", "r").readlines()
 
 # CAMERA can be 0 or 1 based on default camera of your computer
 camera = cv2.VideoCapture(0)
@@ -43,20 +43,25 @@ while True:
     class_name = class_names[index]
     confidence_score = prediction[0][index]
     
-    if confidence_score >= confidence_threshold:
-        if current_class == class_name:
-            # If yes, check the time since the start of high-confidence
-            elapsed_time = time.time() - start_time
-            if elapsed_time >= time_threshold:
-                print(f"Confirmed Class: {class_name} with {confidence_score * 100:.2f}% confidence")
+    classes = {"0 Plastic":0, "1 Glass":1, "2 Paper":2, "3 Metal":3, "4 Cardboard":3} #metal and cardboard are considered the same class
+
+    with open("gaa.txt", 'w') as file:
+        if confidence_score >= confidence_threshold:
+            if current_class == class_name:
+                # If yes, check the time since the start of high-confidence
+                elapsed_time = time.time() - start_time
+                if elapsed_time >= time_threshold:
+                    print(f"Confirmed Class: {class_name} with {confidence_score * 100:.2f}% confidence")
+                    file.write(str(classes[class_name.strip()]))
+                    
+            else:
+                # If it's a new class, reset the timer
+                current_class = class_name
+                start_time = time.time()
         else:
-            # If it's a new class, reset the timer
-            current_class = class_name
-            start_time = time.time()
-    else:
-        # Reset if confidence falls below threshold
-        current_class = None
-        start_time = None
+            # Reset if confidence falls below threshold
+            current_class = None
+            start_time = None
 
     # Print prediction and confidence score
     #print("Class:", class_name[2:], end="")
