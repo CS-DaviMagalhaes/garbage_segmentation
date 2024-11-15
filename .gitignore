@@ -1,1 +1,5 @@
 virtualenv/
+extra_classes/
+test_dataset/
+models/testing.ipynb
+models/old_models.ipynb
