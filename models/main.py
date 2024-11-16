@@ -2,6 +2,12 @@ from keras.models import load_model  # Libreria Tensorflow que incluye keras
 import cv2  # Libreria opencv-python para cámara
 import numpy as np
 import time 
+import serial
+
+# Inicializar la conexión serial con el ESP32
+COM = 'COM5'
+BAUD = 115200
+ser = serial.Serial(COM,BAUD)  # Cambia 'COMX' al puerto donde esté conectado tu ESP32
 
 # desactivar notación cientifica (detallito nomás)
 np.set_printoptions(suppress=True)
@@ -49,8 +55,14 @@ while True:
             if elapsed_time >= time_threshold: # si tengo más de x segundos en la misma clase, confirmo la prediccion
                 print(f"Confirmed Class: {class_name} with {confidence_score * 100:.2f}% confidence") #mensaje en consola
                 
-                # TODO: mandar class_name a código arduino aqui, para que mueva los motores <-------------
-                
+                if (class_name=="0 Plastic"):
+                    ser.write(b"1\n")
+    
+                elif (class_name=="1 Glass"):
+                    ser.write(b"2\n")
+        
+                elif (class_name=="2 Paper"):
+                    ser.write(b"3\n")
                 start_time = time.time() #reseteo timer             
                 
         else:
